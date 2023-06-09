@@ -1,0 +1,171 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Função para converter um número decimal para binário
+void decimalParaBinario(int decimal) {
+    if (decimal > 0) {
+        decimalParaBinario(decimal / 2);
+        printf("%d", decimal % 2);
+    }
+}
+
+// Função para converter um número decimal para hexadecimal
+void decimalParaHexadecimal(int decimal) {
+    if (decimal > 0) {
+        decimalParaHexadecimal(decimal / 16);
+        int digito = decimal % 16;
+        if (digito < 10) {
+            printf("%d", digito);
+        } else {
+            printf("%c", 'A' + digito - 10);
+        }
+    }
+}
+
+// Função para converter um número binário para decimal
+int binarioParaDecimal(const char *binario) {
+    int decimal = 0;
+    int base = 1;
+    int i = 0;
+    while (binario[i] != '\0') {
+        if (binario[i] == '1') {
+            decimal += base;
+        }
+        base *= 2;
+        i++;
+    }
+    return decimal;
+}
+
+// Função para converter um número hexadecimal para decimal
+int hexadecimalParaDecimal(const char *hexadecimal) {
+    int decimal = 0;
+    int base = 1;
+    int i = 0;
+    while (hexadecimal[i] != '\0') {
+        if (hexadecimal[i] >= '0' && hexadecimal[i] <= '9') {
+            decimal = decimal * 16 + (hexadecimal[i] - '0');
+        } else if (hexadecimal[i] >= 'A' && hexadecimal[i] <= 'F') {
+            decimal = decimal * 16 + (hexadecimal[i] - 'A' + 10);
+        } else if (hexadecimal[i] >= 'a' && hexadecimal[i] <= 'f') {
+            decimal = decimal * 16 + (hexadecimal[i] - 'a' + 10);
+        } else {
+            printf("Dígito inválido: %c\n", hexadecimal[i]);
+            return 0;
+        }
+        i++;
+    }
+    return decimal;
+}
+
+float calcularPorcentagem(float numero, float porcentagem) {
+    return (numero * porcentagem) / 100;
+}
+
+int main() {
+    int opcao;
+    int decimal;
+    int num1, num2;
+    int resultado;
+    char hexadecimal[100];
+    char binario[100];
+    char operador;
+    float numero, porcentagem, resulta;
+
+    while (1) {
+        printf("Escolha a operacao:\n");
+        printf("0. Porcentagem\n");
+		printf("1. Adicao\n");
+		printf("2. Subtracao\n");
+		printf("3. Multiplicacao\n");
+		printf("4. Divisao\n");
+		printf("5. Decimal para Binário\n");
+        printf("6. Decimal para Hexadecimal\n");
+        printf("7. Binario para Decimal\n");
+        printf("8. Hexadecimal para Decimal\n");
+        printf("9. Sair\n");
+        printf("Opcao: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 0:
+            printf("Digite o numero: ");
+            scanf("%f", &numero);
+            printf("Digite a porcentagem: ");
+            scanf("%f", &porcentagem);
+            resulta = calcularPorcentagem(numero, porcentagem);
+            printf("A porcentagem %.2f%% de %.2f é igual a %.2f\n", porcentagem, numero, resulta);
+            break;
+			case 1:
+            printf("Digite o primeiro número: ");
+            scanf("%d", &num1);
+            printf("Digite o segundo número: ");
+            scanf("%d", &num2);
+            resultado = num1 + num2;
+            printf("Resultado: %d\n", resultado);
+            break;
+            case 2:
+            printf("Digite o primeiro número: ");
+            scanf("%d", &num1);
+            printf("Digite o segundo número: ");
+            scanf("%d", &num2);
+            resultado = num1 - num2;
+            printf("Resultado: %d\n", resultado);
+            break;
+            case 3:
+            printf("Digite o primeiro número: ");
+            scanf("%d", &num1);
+            printf("Digite o segundo número: ");
+            scanf("%d", &num2);
+            resultado = num1 * num2;
+            printf("Resultado: %d\n", resultado);
+            break;
+            case 4:
+            printf("Digite o primeiro número: ");
+            scanf("%d", &num1);
+            printf("Digite o segundo número: ");
+            scanf("%d", &num2);
+            if (num2 != 0) {
+                resultado = num1 / num2;
+                printf("Resultado: %d\n", resultado);
+            } else {
+                printf("Erro: divisão por zero\n");
+            }
+            break;
+			case 5:
+                printf("Digite o número decimal: ");
+                scanf("%d", &decimal);
+                printf("Número binário: ");
+                decimalParaBinario(decimal);
+                printf("\n\n");
+                break;
+            case 6:
+                printf("Digite o número decimal: ");
+                scanf("%d", &decimal);
+                printf("Número hexadecimal: ");
+                decimalParaHexadecimal(decimal);
+                printf("\n\n");
+                break;
+            case 7:
+                printf("Digite o número binário: ");
+                scanf("%s", binario);
+                decimal = binarioParaDecimal(binario);
+                printf("Número decimal: %d\n\n", decimal);
+                break;
+            case 8:
+                printf("Digite o número hexadecimal: ");
+                scanf("%s", hexadecimal);
+                decimal = hexadecimalParaDecimal(hexadecimal);
+                printf("Número decimal: %d\n\n", decimal);
+                break;
+            case 9:
+                printf("Saindo do programa...\n");
+                exit(0);
+            default:
+                printf("Opção inválida!\n\n");
+                break;
+        }
+    }
+
+    return 0;
+}
